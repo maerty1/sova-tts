@@ -6,6 +6,8 @@ from flask_cors import CORS, cross_origin
 from models import models, ALL_MODELS
 from file_handler import FileHandler
 
+from normalizer import Normalizer
+
 
 app = Flask(__name__)
 cors = CORS(app)
@@ -26,6 +28,10 @@ def synthesize():
     request_json = request.get_json()
 
     text = request_json["text"]
+    
+    norm = Normalizer()
+    text = norm.norm_text(text)
+    
     model_type = request_json["voice"]
 
     options = {
